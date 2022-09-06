@@ -1,0 +1,79 @@
+<!-- Toolbar -->
+
+<div class="toolbar position-relative">
+  <a data-v-f0fff9c6="" href="/#/home/work" class="d-flex items-center ms-3 me-2" title="Home" alt="Home"
+    aria-label="Home"><img
+      src="assets/images/allhours.svg"
+      height="31" alt="" class="">
+    </a>
+  <span style="font-size: 18px;">Integrirano z allhours</span>
+  <div class="spacer"></div>
+  <!-- <div class="dropdown me-3" *ngIf="user">
+    <a class="btn border-0 pe-0" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <span style="text-transform: none" class="text-white f">{{ user.firstName }} {{ user.lastName }}</span>
+      <img src="{{ user.avatarUrl }}" alt="Profile picture" width="36" height="36" class="rounded-circle ms-2" />
+    </a>
+    <div class="dropdown-menu dropdown-menu-end text-small arrow_box mt-3 p-1" aria-labelledby="dropdownUser1">
+      <a class="dropdown-item m-0 border-1 rounded-3 text-center" role="button" (click)="logout()">Dropdown item 1<span
+          class="fa fa-address-book ms-3" style="width: 15px"></span></a>
+      <a class="dropdown-item m-0 border-1 rounded-3 text-center" role="button" (click)="logout()">Dropdown item 2<span
+          class="fa fa-caret-up ms-3" style="width: 15px"></span></a>
+      <a class="dropdown-item m-0 border-1 rounded-3 text-center" role="button" (click)="logout()">Dropdown item 3<span
+          class="fa fa-crop ms-3" style="width: 15px"></span></a>
+      <a class="dropdown-item m-0 border-1 rounded-3 text-center" role="button" (click)="logout()">Dropdown item 4<span
+          class="fa fa-minus ms-3" style="width: 15px"></span></a>
+      <a class="dropdown-item m-0 border-1 rounded-3 text-center" role="button" (click)="logout()">Logout<span
+          class="fa fa-sign-out ms-3" style="width: 15px"></span></a>
+    </div>
+  </div> -->
+</div>
+<div class="wrapper d-flex">
+  <nav id="sidebar" [classList]="sidenavExpanded ? '' : 'active'">
+    <div class="custom-menu">
+      <button type="button" (click)="sidenavExpanded = !sidenavExpanded" class="btn btn-primary">
+        <i class="fa fa-bars"></i>
+        <span class="sr-only">Toggle Menu</span>
+      </button>
+    </div>
+
+    <div class="p-4 ">
+      <h1>
+        <a routerLink="/dashboard" class="logo">Testni projekt
+        </a>
+        <a href="https://www.spica.si/">
+          <span class="logo mt-2">
+            <img width="30" class="me-1" src="logo"
+              alt="Spica">
+            Špica International
+          </span>
+        </a>
+      </h1>
+      <ul class="list-unstyled components mb-5">
+        <li class="active">
+          <a routerLink="/settings">
+            <span class="fa fa-home me-3" style="width: 15px"></span>Settings</a>
+        </li>
+        <li>
+          <a routerLink="/users"><span class="fa fa-user me-3" style="width: 15px"></span>Users</a>
+        </li>
+        <li>
+          <a routerLink="/absences"><span class="fa fa-briefcase me-3" style="width: 15px"></span>Absences</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="position-absolute bottom-0 p-4 pb-1 w-100">
+      <ul class="list-unstyled components">
+        <li>
+          <a role="button" class="border-0" (click)="logout()"><span class="fa fa-sign-out me-3"
+              style="width: 15px"></span>Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Content  -->
+  <main id="content" [classList]="sidenavExpanded ? '' : 'w-100'">
+    <router-outlet></router-outlet>
+  </main>
+</div>

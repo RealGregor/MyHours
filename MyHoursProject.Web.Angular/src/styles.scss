@@ -1,0 +1,60 @@
+
+/* You can add global styles to this file, and also import other style files */
+.popover { height: 40% !important; width: max-content !important; overflow-y: auto;}
+// .popover { height: 40% !important; width: max-content !important; overflow-y: auto;}
+// .popover-header { position: sticky; }
+
+$primary: #0b0e1f;
+$secondary: #44bef1;
+$white: #fff;
+
+$accordion-button-active-bg: $primary;
+$accordion-button-active-color: $white;
+$accordion-button-focus-box-shadow: none;
+$font-primary: "Poppins", Arial, sans-serif;
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+// @import "../node_modules/bootstrap/scss/functions";
+// @import "../node_modules/bootstrap/scss/mixins";
+// @import "../node_modules/bootstrap/scss/utilities";
+// @import "../node_modules/bootstrap/scss/utilities/api";
+
+
+
+
+
+.popover {
+    // transform: translate(-20px, 220px) !important; // below grid
+    transform: translate(-160px, 70px) !important; // below grid
+    max-height: 40vh !important;
+    max-width: 100vh !important;
+
+    overflow-y: overlay !important;
+}
+
+.popover-arrow {
+    transform: translate(0%, 226%) !important;
+    background-color: orange;
+}
+
+.popover-header { position: sticky; top: 0%; z-index: 2000;}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background: white;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: none;
+}
