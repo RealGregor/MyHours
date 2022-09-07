@@ -18,6 +18,10 @@ export class SidebarComponent implements OnInit {
 
   public sidenavExpanded: boolean = true;
 
+  public get currentPage(): typeof CurrentPage {
+    return CurrentPage;
+  }
+
   ngOnInit(): void {
     this.getAccountDetails();
   }
@@ -29,6 +33,25 @@ export class SidebarComponent implements OnInit {
       })
   }
 
+  public assignActive(routesArr: string[] = this.router.url.split("/")): CurrentPage {
+    switch (routesArr?.pop()) {
+      case "":
+        return CurrentPage.Settings
+      case "settings":
+        return CurrentPage.Settings
+      case "users":
+        return CurrentPage.Users
+      case "absences":
+        return CurrentPage.Absences
+      case "undefined":
+        return CurrentPage.Settings
+      default:
+        return this.assignActive(routesArr);
+    }
+  }
+
+  
+
   public logout(){
     this.cookieService.delete('tw_access_token');
     this.cookieService.delete('columns');
@@ -36,4 +59,13 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+}
+
+enum CurrentPage {
+  Settings,
+  Users,
+  Absences,
+  Povprasevanje,
+  Proizvajalci,
+  Izvajalci
 }

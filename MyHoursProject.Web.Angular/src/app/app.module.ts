@@ -20,20 +20,31 @@ import { DiscardChangesModal} from './components/discard-changes-modal/discard-c
 import { WorkTypePipe } from './pipes/work-type.pipe';
 import { CustomUriPipe } from './pipes/custom-uri.pipe';
 import { RemainingTimePipe } from './pipes/remaining-time.pipe';
+import { SettingsComponent } from './components/settings/settings.component';
+import { UsersComponent } from './components/users/users.component';
+import { AbsencesComponent } from './components/absences/absences.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'settings', component: HomeComponent },
-  { path: 'users', component: HomeComponent },
-  { path: 'absences', component: HomeComponent },
   {
-    path: 'dashboard', component: SidebarComponent,
-    canActivate: [AuthGuardService],
+    path: '', component: SidebarComponent,
+    // canActivate: [AuthGuardService],
     children: [
       {
-        path: '', component: DashboardComponent,
+        path: 'dashboard', component: DashboardComponent,
         canActivate: [AuthGuardService],
-      }
+      },
+      {
+        path: 'settings', component: SettingsComponent,
+      },
+      {
+        path: 'users', component: UsersComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'absences', component: AbsencesComponent,
+        canActivate: [AuthGuardService],
+      },
     ]
   },
 
@@ -43,6 +54,9 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
+    SettingsComponent,
+    UsersComponent,
+    AbsencesComponent,
     DashboardComponent,
     SidebarComponent,
     ProjectsGridComponent,

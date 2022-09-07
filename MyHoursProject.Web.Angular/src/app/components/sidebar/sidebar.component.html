@@ -49,14 +49,14 @@
         </a>
       </h1>
       <ul class="list-unstyled components mb-5">
-        <li class="active">
+        <li  [ngClass]="{'active':  assignActive() == currentPage.Settings}">
           <a routerLink="/settings">
             <span class="fa fa-home me-3" style="width: 15px"></span>Settings</a>
         </li>
-        <li>
+        <li  [ngClass]="{'active':  assignActive() == currentPage.Users}">
           <a routerLink="/users"><span class="fa fa-user me-3" style="width: 15px"></span>Users</a>
         </li>
-        <li>
+        <li  [ngClass]="{'active':  assignActive() == currentPage.Absences}">
           <a routerLink="/absences"><span class="fa fa-briefcase me-3" style="width: 15px"></span>Absences</a>
         </li>
       </ul>
