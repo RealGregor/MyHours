@@ -1,1 +1,91 @@
-<p>users works!</p>
+<div class="row m-0 p-0">
+    <div class="d-flex flex-column justify-content-center" style="height: 100px;  background-color: gainsboro;">
+      <div class="row">
+  
+        <div class="d-flex col justify-content-start">
+          <div class="ms-4">
+            <div class="d-flex hr-theme mb-2">
+              <div class="hr-line-left w-100"></div>
+              <div class="hr-icon">Page size</div>
+              <div class="hr-line-right w-100"></div>
+            </div>
+            <div class="btn-group" role="group" *ngFor="let pageSize of pageSizes">
+              <a role="button" (click)="setPageSize(pageSize)"class="page-size-button me-1"  [ngClass]="pageData?.pageSize==pageSize? 'page-size-button-active' : ''">
+                {{pageSize}}
+              </a>
+              <!-- <a role="button" (click)="pageData.pageSize = pageSize"
+                [classList]="pageData.pageSize==pageSize? 'page-size-button-active' : 'page-size-button'">
+              </a> -->
+            </div>
+          </div>
+        </div>
+  
+        <div class="col d-flex justify-content-end">
+          <div class="d-flex align-self-center">
+            <button type="button" class="btn btn-primary" placement="left" [popoverTitle]="popTitle"
+              [autoClose]="'outside'" [ngbPopover]="popContent" container="body">
+              Select columns
+            </button>
+          </div>
+        </div>
+      </div>
+  
+  
+      <ng-template #popTitle>
+        Select columns to show
+      </ng-template>
+      <ng-template #popContent>
+        <ngb-accordion #acc="ngbAccordion">
+          <ngb-panel id="ngb-panel-0">
+            <ng-template ngbPanelTitle>
+              <h6>Teamwork columns</h6>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div *ngFor="let column of twpColumns" class="mb-1">
+                <label class="switch">
+                  <input type="checkbox" [checked]="column.visible" (change)="saveColumnPreferences(column)">
+                  <div>
+                    <span style="font-size: 16px;">{{column.field}}</span>
+                  </div>
+                </label>
+              </div>
+            </ng-template>
+          </ngb-panel>
+          <ngb-panel id="ngb-panel-1">
+            <ng-template ngbPanelTitle>
+              <h6>Project data columns</h6>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div *ngFor="let column of customProjectColumns" class="mb-1">
+                <label class="switch">
+                  <input type="checkbox" [checked]="column.visible" (change)="saveColumnPreferences(column)">
+                  <div>
+                    <span>{{column.field}}</span>
+                  </div>
+                </label>
+              </div>
+            </ng-template>
+          </ngb-panel>
+          <ngb-panel id="ngb-panel-2">
+            <ng-template ngbPanelTitle>
+              <h6 class="me-2">Finance data columns</h6>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div *ngFor="let column of customFinanceColumns" class="mb-1">
+                <label class="switch">
+                  <input type="checkbox" [checked]="column.visible" (change)="saveColumnPreferences(column)">
+                  <div>
+                    <span>{{column.field}}</span>
+                  </div>
+                </label>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </ng-template>
+    </div>
+  
+    <app-users-grid [columns]="columns" [users]="users" [pageData]="pageData"
+      (projectDataChanged)="test($event)"></app-users-grid>
+  </div>
+  

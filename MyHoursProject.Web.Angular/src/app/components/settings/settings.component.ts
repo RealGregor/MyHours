@@ -25,7 +25,7 @@ export class SettingsComponent implements OnInit {
     if (!this.clientId || !this.clientSecret) return;
 
     this.authService.getToken(this.clientId, this.clientSecret).subscribe((res) => {
-      res.expirationTime = new Date(new Date().getTime() + res.expires_in * 1000);//expires_in in minutes or seconds?
+      res.expirationTime = new Date(new Date().getTime() + res.expires_in);//expires_in in minutes or seconds?
       localStorage.setItem("ah_access_token", JSON.stringify(res));
     });
 

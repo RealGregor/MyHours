@@ -1,0 +1,84 @@
+@import "../sidebar/sidebar.component.scss";
+
+.test {
+  width: 100%;
+  padding: 0;
+  height: calc(100vh - $navbarHeight - 185px) !important;
+}
+
+.sort-button {
+  color: gray;
+  &:hover {
+    color: white;
+  }
+  transition-property: transform;
+  transition-duration: 0.3s;
+}
+
+.sort-button-asc {
+  color: white;
+}
+
+.sort-button-desc {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: gainsboro;
+  border-radius: 5px;
+  display: block;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+table {
+  width: auto;
+  -webkit-box-flex: 1;
+          flex: 1;
+}
+
+.unset-data{
+  border-radius: 10px;
+  background-color: gainsboro;
+  height: 25px !important;
+}
+
+.custom-pagination {
+  display: flex;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  .page-button-active {
+    color: $white !important;
+    background-color: $primary;
+    border: solid 1px  $primary;
+  }
+
+  .page-button {
+    border: solid 1px #d7d7d7;
+    border-radius: 0.2rem;
+    color: #7d7d7d;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+    padding: 0.5rem 0.9rem;
+  }
+
+  .page-button:hover {
+    cursor: pointer;
+    background-color:  $primary;
+    color: $white !important;
+  }
+
+  .page-button-active:hover {
+    cursor: default;
+  }
+}

@@ -19,7 +19,9 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 // }
 app.use('/api', proxy('https://localhost:7134'));
 app.use('/twp', proxy('https://trac.eu.teamwork.com'));
+
 app.use('/ah', proxy('https://login.allhours.com'));
+app.use('/ah-api', proxy('https://api4.allhours.com'));
 // app.options('*', cors())
 // app.use(nocache());
 

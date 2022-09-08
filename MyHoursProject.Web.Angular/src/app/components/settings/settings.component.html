@@ -1,25 +1,29 @@
 <div class="row m-0 p-0">
     <div class="d-flex p-2 justify-content-center align-items-center text-black"
         style="height: 100px; font-size: 30px; position:relative; background-color: gainsboro;">
-    Nastavitve
+        Nastavitve
     </div>
 </div>
 
-<div class="col-sm-9 col-md-7 col-lg-5 col-xl-4 mx-auto">
+<div class="col-sm-9 col-md-7 col-lg-6 col-xl-5 mx-auto">
     <div class="card border-0 shadow rounded-3 my-1 my-sm-5">
-        <div class="card-body p-4 p-sm-5">
-            <div class="text-center w-100 p-4">
+        <div class="card-header">
+            <div class="text-center w-100 p-3">
                 <div class="h3">allhours API Auth</div>
             </div>
+        </div>
+        <form (submit)="getToken()">
 
-            <form (submit)="getToken()">
+            <div class="card-body p-3">
+
+
                 <div class="group mt-3">
                     <input type="text" [(ngModel)]="clientId" required [ngModelOptions]="{standalone: true}">
                     <span class="highlight"></span>
                     <span class="bar"></span>
                     <label>Client ID</label>
                 </div>
-            
+
                 <div class="group">
                     <input type="text" [(ngModel)]="clientSecret" required [ngModelOptions]="{standalone: true}">
                     <span class="highlight"></span>
@@ -27,16 +31,20 @@
                     <label>Client secret</label>
                 </div>
 
+
+            </div>
+            <div class="card-footer p-3">
                 <div class="d-flex justify-content-end">
-                <div class="pt-4 text-success" *ngIf="tokenValid()">
-                    Token valid
-                </div>
-                    <div style="flex: 1;"></div> 
+                    <div class="pt-4 text-success" *ngIf="tokenValid()">
+                        Token valid
+                    </div>
+                    <div style="flex: 1;"></div>
                     <button class="btn btn-primary text-uppercase fw-bold p-2" type="submit" name="prijava">
                         Pridobi žeton
                     </button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+
     </div>
 </div>
