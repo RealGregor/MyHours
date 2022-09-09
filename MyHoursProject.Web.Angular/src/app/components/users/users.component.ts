@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
       sortBy: SortBy.none,
       mapsTo: 'Id',
       sourceFrom: ColumnSourceFrom.CustomProject,
-      visible: true
+      visible: false
     },
     {
       field: 'First name',
@@ -61,7 +61,7 @@ export class UsersComponent implements OnInit {
       // args: ['projectUri', '_blank', 'name'],
       customClickEvent: true,
       sourceFrom: ColumnSourceFrom.CustomProject,
-      visible: true
+      visible: false
     },
     {
       field: 'Full name',
@@ -77,7 +77,7 @@ export class UsersComponent implements OnInit {
       sortBy: SortBy.none,
       mapsTo: 'BirthDate',
       sourceFrom: ColumnSourceFrom.CustomProject,
-      visible: true
+      visible: false
     },
     {
       field: 'Address',
@@ -87,7 +87,7 @@ export class UsersComponent implements OnInit {
       customMap: 'lastActivity',
       // pipe: 'latestUpdate',
       sourceFrom: ColumnSourceFrom.CustomProject,
-      visible: true
+      visible: false
     },
     {
       field: 'City',
@@ -96,7 +96,7 @@ export class UsersComponent implements OnInit {
       mapsTo: 'City',
       customFormat: 'h',
       sourceFrom: ColumnSourceFrom.CustomProject,
-      visible: true
+      visible: false
     },
     {
       field: 'State',
@@ -106,7 +106,7 @@ export class UsersComponent implements OnInit {
       customFormat: 'h',
       // pipe: 'remainingTime',
       sourceFrom: ColumnSourceFrom.CustomProject,
-      visible: true
+      visible: false
     },
     // Custom project data
     {
@@ -117,7 +117,7 @@ export class UsersComponent implements OnInit {
       // pipe: 'acronym',
       // args: 'WorkType',
       sourceFrom: ColumnSourceFrom.CustomProjectData,
-      visible: true
+      visible: false
     },
     {
       field: 'Mobile',
@@ -125,7 +125,7 @@ export class UsersComponent implements OnInit {
       sortBy: SortBy.none,
       mapsTo: 'Mobile',
       sourceFrom: ColumnSourceFrom.CustomProjectData,
-      visible: true
+      visible: false
     },
     {
       field: 'Email',
@@ -144,7 +144,7 @@ export class UsersComponent implements OnInit {
       // args: ['sharePointUri', '_blank', 'SharePointPath'],
       customClickEvent: true,
       sourceFrom: ColumnSourceFrom.CustomProjectData,
-      visible: true
+      visible: false
     },
     {
       field: 'Picture uri',
@@ -314,16 +314,18 @@ export class UsersComponent implements OnInit {
   ]
 
 
-  public users: User[] = [];
+  public users: User[] | undefined;
 
-  public pageData!: Page;
+  public filterText : string = '';
+
+  page: number = 1;
+  pageSize: number = 50;
 
   private selectedTags: number[] = [];
 
   pageSizes: number[] = [25, 50, 100, 200];
 
-  page: number = 1;
-  pageSize: number = 50;
+
 
 
   twpColumns = this.columns.filter(c => c.sourceFrom === ColumnSourceFrom.CustomProject);

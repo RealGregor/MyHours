@@ -19,14 +19,13 @@ import { CustomUriPipe } from './pipes/custom-uri.pipe';
 import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import { registerLocaleData } from '@angular/common';
-import localeSl from '@angular/common/locales/sl';
 import { SettingsComponent } from './components/settings/settings.component';
 import { UsersComponent } from './components/users/users.component';
 import { AbsencesComponent } from './components/absences/absences.component';
 import { ProjectsGridComponent } from './components/users-grid/users-grid.component';
-import { NgbdModalContent } from './components/user-modal/user-modal.component';
+import { NgbdModalContent } from './components/user-add-abscence-modal/user-add-abscence-modal.component';
 import { WorkTypePipe } from './pipes/work-type.pipe';
+import { UserFilterPipe } from './pipes/user-filter.pipe';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -70,7 +69,8 @@ const routes: Routes = [
     DiscardChangesModal,
     WorkTypePipe,
     CustomUriPipe,
-    RemainingTimePipe
+    RemainingTimePipe,
+    UserFilterPipe
   ],
   imports: [
     BrowserModule,

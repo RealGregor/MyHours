@@ -14,7 +14,7 @@ export class AuthGuardService implements CanActivate {
 
     if (!token.access_token) this.router.navigate(['/settings']);;
 
-    if (token.expirationTime < new Date()) {
+    if (new Date(token.expirationTime) < new Date()) {
       localStorage.removeItem('ah_access_token');
       this.router.navigate(['/settings']);
     }

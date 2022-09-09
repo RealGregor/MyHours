@@ -31,10 +31,10 @@
 
       <tbody>
 
-        <ng-container *ngIf="users.length == 0; else showProjects">
+        <ng-container *ngIf="!users; else showResults;">
           <tr>
             <ng-container *ngFor="let column of columns; index as i">
-              <td  class="overflow-auto" *ngIf="columns[i].visible">
+              <td class="overflow-auto" *ngIf="columns[i].visible">
                 <div class="unset-data">&nbsp;</div>
               </td>
             </ng-container>
@@ -75,9 +75,14 @@
             </ng-container>
           </tr>
         </ng-container>
+        <ng-template #showResults>
+          <ng-container *ngIf="users!.length == 0; else showProjects">
+              <div class="end-50">Ni rezultatov</div>
+          </ng-container>
+        </ng-template>
         <ng-template #showProjects>
           <tr
-            *ngFor="let user of users | paginate: {id: 'custom', itemsPerPage: pageData?.pageSize, currentPage: (pageData?.pageOffset || 0) + 1, totalItems: pageData?.count}"
+            *ngFor="let user of users! | paginate: {id: 'custom', itemsPerPage: pageData?.pageSize, currentPage: (pageData?.pageOffset || 1), totalItems: pageData?.count}"
             style="cursor: pointer;" (click)="beginEdit(user)">
             <ng-container *ngFor="let column of columns; index as i">
               <td class="overflow-auto" style="max-width: 150px;"
@@ -99,7 +104,9 @@
   </div>
   <!-- <pagination-controls class="mt-2" (pageChange)="changePage($event)" id="custom"></pagination-controls> -->
 
-  <pagination-template #p="paginationApi" id="custom" (pageChange)="changePage($event)" id="custom">
+  <!-- (pageChange)="changePage($event)" -->
+
+  <pagination-template #p="paginationApi" id="custom" (pageChange)="pageData.pageOffset = $event"  id="custom">
 
 
     <div class="custom-pagination mt-3">

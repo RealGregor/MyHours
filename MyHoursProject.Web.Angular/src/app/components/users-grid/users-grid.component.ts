@@ -17,7 +17,7 @@ import {
 import { CustomProjectDataService } from 'src/app/services/projectData/custom-project-data.service';
 import { CustomFinanceDataService } from 'src/app/services/financeData/custom-finance-data.service';
 import { ProjectsService } from 'src/app/services/allhours/projects.service';
-import { NgbdModalContent } from '../user-modal/user-modal.component';
+import { NgbdModalContent } from '../user-add-abscence-modal/user-add-abscence-modal.component';
 
 @Component({
   selector: 'app-users-grid',
@@ -41,10 +41,10 @@ export class ProjectsGridComponent implements OnInit {
   public columns: Column[] = [];
 
   @Input()
-  public users: User[] = [];
+  public users: User[] | undefined;
 
   @Input()
-  public pageData?: Page;
+  public pageData: any;
 
   @Output()
   projectDataChanged: EventEmitter<QueryParameters> = new EventEmitter();
