@@ -11,7 +11,7 @@
   <!-- removed sticky-top -->
   <div class="p-2">
     <form [formGroup]="userForm" class="mt-3" autocomplete="off">
-      <div class="mb-3" class="form-group">
+      <div class="mb-2">
         <label for="firstName" class="form-label">First name</label>
         <input type="text" id="firstName" class="form-control" ngbAutofocus
           [formControl]="userValidation[CustomProjectEnum.FirstName].control" [ngClass]="
@@ -26,9 +26,9 @@
         </div>
       </div>
 
-      <div class="mb-3">
-        <label for="lastName" class="form-label">Last name</label>
-        <div class="input-group">
+      <div class="mb-2">
+        <div class="form-group">
+          <label for="lastName" class="form-label">Last name</label>
           <input type="text" id="lastName" class="form-control"
             [formControl]="userValidation[CustomProjectEnum.LastName].control" [ngClass]="
                   userValidation[CustomProjectEnum.LastName].control.untouched
@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="mb-3">
+      <div>
         <label for="email" class="form-label">Email</label>
         <input type="text" id="email" class="form-control"
           [formControl]="userValidation[CustomProjectEnum.Email].control" [ngClass]="

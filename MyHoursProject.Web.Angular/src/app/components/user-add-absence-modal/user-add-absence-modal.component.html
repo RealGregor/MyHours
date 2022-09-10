@@ -8,7 +8,7 @@
   <!-- removed sticky-top -->
   <div ngbNavContent class="p-2">
     <form [formGroup]="absenceForm" class="mt-3" autocomplete="off">
-      <div class="mb-3" class="form-group">
+      <div class="mb-2">
         <label for="type" class="form-label">Absence definition</label>
         <select class="form-select" id="type" ngbAutofocus
           [formControl]="absenceValidation[CustomProjectEnum.AbsenceDefinition].control" [ngClass]="
@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="mb-3" class="form-group">
+      <div class="mb-2">
         <label for="customer" class="form-label">Timestamp</label>
         <input type="date" id="customer" class="form-control"
           [formControl]="absenceValidation[CustomProjectEnum.Timestamp].control" [ngClass]="
@@ -42,10 +42,10 @@
         </div>
       </div>
 
-      <div class="mb-3">
+      <div class="mb-2">
         <label for="progress" class="form-label">Origin</label>
         <div class="input-group">
-          <span class="input-group-text fa fa-light fa-percent d-flex"></span>
+          <span class="input-group-text fa fa-solid fa-hashtag d-flex"></span>
           <input type="number" id="progress" class="form-control"
             [formControl]="absenceValidation[CustomProjectEnum.Origin].control" [ngClass]="
                   absenceValidation[CustomProjectEnum.Origin].control.untouched
