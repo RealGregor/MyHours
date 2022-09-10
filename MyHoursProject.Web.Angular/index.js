@@ -35,11 +35,11 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, "dist", "digital-pmo.web.angular")));
+app.use(express.static(path.join(__dirname, "dist", "myhours.web.angular")));
 
 app.get("*", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "dist", "digital-pmo.web.angular", "index.html")
+    path.join(__dirname, "dist", "myhours.web.angular", "index.html")
   );
 });
 
