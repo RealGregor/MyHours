@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Column, ColumnSourceFrom, Page, QueryParameters, SortBy, User } from 'src/app/classes/project';
-import { UserService } from 'src/app/services/allhours/user.service';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { Column, ColumnSourceFrom, SortBy, User } from 'src/app/classes/project';
+import { UsersService } from 'src/app/services/allhours/users.service';
+import { AddUserModalContent } from '../user-add-modal/user-add-modal.component';
 
 @Component({
   selector: 'app-users',
@@ -9,14 +11,17 @@ import { UserService } from 'src/app/services/allhours/user.service';
 })
 export class UsersComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private usersService: UsersService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
+    this.columns.forEach((x) => {
+			x.sortBy = SortBy.none;
+		  });
     this.getUsers();
   }
 
   private getUsers() {
-    this.userService.getUsers().subscribe((data) => {
+    this.usersService.getUsers().subscribe((data) => {
       console.log(data);
       this.users = data;
     })
@@ -24,14 +29,13 @@ export class UsersComponent implements OnInit {
 
 
   //TODO: refactor with using constructors.. dont know how to use optional parameters yet
-  public columns: Column[] = [
-    // From TWPR
+  public columns: Column[] =  localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')!) : [
     {
       field: 'Id',
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'Id',
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -39,28 +43,24 @@ export class UsersComponent implements OnInit {
       canSort: true,
       sortBy: SortBy.none,
       mapsTo: 'FirstName',
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: true,
-      customSort: true
     },
     {
       field: 'Last name',
       canSort: true,
       sortBy: SortBy.none,
       mapsTo: 'LastName',
-      customMap: 'name',
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: true
     },
     {
       field: 'Middle name',
       canSort: true,
-      sortBy: SortBy.asc,
+      sortBy: SortBy.none,
       mapsTo: 'MiddleName',
-      // pipe: 'customUri',
-      // args: ['projectUri', '_blank', 'name'],
       customClickEvent: true,
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -68,7 +68,7 @@ export class UsersComponent implements OnInit {
       canSort: true,
       sortBy: SortBy.none,
       mapsTo: 'FullName',
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: true
     },
     {
@@ -76,17 +76,15 @@ export class UsersComponent implements OnInit {
       canSort: true,
       sortBy: SortBy.none,
       mapsTo: 'BirthDate',
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
       field: 'Address',
-      canSort: true,
+      canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'Address',
-      customMap: 'lastActivity',
-      // pipe: 'latestUpdate',
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -94,37 +92,32 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'City',
-      customFormat: 'h',
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
       field: 'State',
-      canSort: true,
+      canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'State',
-      customFormat: 'h',
-      // pipe: 'remainingTime',
-      sourceFrom: ColumnSourceFrom.CustomProject,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     // Custom project data
     {
       field: 'Phone',
-      canSort: true,
+      canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'Phone',
-      // pipe: 'acronym',
-      // args: 'WorkType',
-      sourceFrom: ColumnSourceFrom.CustomProjectData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
       field: 'Mobile',
-      canSort: true,
+      canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'Mobile',
-      sourceFrom: ColumnSourceFrom.CustomProjectData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -132,7 +125,7 @@ export class UsersComponent implements OnInit {
       canSort: true,
       sortBy: SortBy.none,
       mapsTo: 'Email',
-      sourceFrom: ColumnSourceFrom.CustomProjectData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: true
     },
     {
@@ -140,20 +133,15 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'Gender',
-      // pipe: 'customUri',
-      // args: ['sharePointUri', '_blank', 'SharePointPath'],
-      customClickEvent: true,
-      sourceFrom: ColumnSourceFrom.CustomProjectData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
       field: 'Picture uri',
-      canSort: true,
+      canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'PictureUri',
-      // pipe: 'acronym',
-      // args: 'ProjectPhase',
-      sourceFrom: ColumnSourceFrom.CustomProjectData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -161,16 +149,15 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomId',
-      sourceFrom: ColumnSourceFrom.CustomProjectData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
       field: 'CustomField1',
-      canSort: true,
+      canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField1',
-      customFormat: '%',
-      sourceFrom: ColumnSourceFrom.CustomProjectData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     // customFinanceData
@@ -179,10 +166,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField2',
-      // pipe: 'customUri',
-      // args: ['offerUri', '_self', 'OfferPath'],
-      customClickEvent: true,
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -190,8 +174,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField3',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -199,8 +182,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField4',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -208,8 +190,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField5',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -217,8 +198,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField6',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -226,8 +206,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField7',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -235,8 +214,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField8',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -244,8 +222,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField9',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -253,8 +230,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CustomField10',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -262,8 +238,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'IsTimeAttendanceUser',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -271,8 +246,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'IsArchived',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -280,8 +254,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'HasUserAccount',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -289,8 +262,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'UserAccountId',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -298,8 +270,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CalculationStartDate',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     },
     {
@@ -307,8 +278,7 @@ export class UsersComponent implements OnInit {
       canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'CalculationStopDate',
-      customFormat: '€',
-      sourceFrom: ColumnSourceFrom.CustomFinanceData,
+      sourceFrom: ColumnSourceFrom.User,
       visible: false
     }
   ]
@@ -316,22 +286,33 @@ export class UsersComponent implements OnInit {
 
   public users: User[] | undefined;
 
-  public filterText : string = '';
+  public filterText: string = '';
 
   page: number = 1;
   pageSize: number = 50;
 
-  private selectedTags: number[] = [];
-
   pageSizes: number[] = [25, 50, 100, 200];
 
+  userColumns = this.columns.filter(c => c.sourceFrom === ColumnSourceFrom.User);
 
+  addUser() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      centered: true,
+      scrollable: true,
+      size: 'md',
+    };
+    const modalRef = this.modalService.open(AddUserModalContent, ngbModalOptions);
 
-
-  twpColumns = this.columns.filter(c => c.sourceFrom === ColumnSourceFrom.CustomProject);
-  customProjectColumns = this.columns.filter(c => c.sourceFrom === ColumnSourceFrom.CustomProjectData);
-  customFinanceColumns = this.columns.filter(c => c.sourceFrom === ColumnSourceFrom.CustomFinanceData);
-
+    modalRef.result.then(
+      result => {
+        this.getUsers();
+      },
+      rejectReason => {
+        console.log(rejectReason);
+      });
+  }
 
   saveColumnPreferences(column: Column) {
     column.visible = !column.visible;
@@ -340,67 +321,10 @@ export class UsersComponent implements OnInit {
   //Pagination not implemented on API
   setPageSize(pageSize: number) {
     this.pageSize = pageSize;
-
-    // let queryParams: QueryParameters = JSON.parse(localStorage.getItem("queryParameters") ?? '{}');
-
-    // if (queryParams.twpParameters) {
-    //   queryParams.twpParameters.pageSize = this.pageSize;
-    // } else {
-    //   queryParams =
-    //   {
-    //     twpParameters: { tags: this.selectedTags, pageSize: this.pageSize }
-    //   }
-    // }
-
-    // localStorage.setItem('queryParameters', JSON.stringify(queryParams));
-    // this.getProjects(queryParams);
   }
-
-  // exportCSV() {
-  //   let headers: string[] = [];
-  //   let keys: (keyof CustomProject)[] = [];
-
-  //   this.columns.filter(x => x.visible).map(x => { headers.push(x.field), keys.push(x.customMap as keyof CustomProject || x.mapsTo as keyof CustomProject) });
-  //   let data = this.redux(this.projects, keys);
-
-  //   data.forEach((x: any) => {
-  //     Object.keys(x).forEach((key) => {
-  //       x[key] = x[key]?.toString();
-  //     })
-  //   });
-
-
-
-  //   var options = {
-  //     fieldSeparator: ',',
-  //     quoteStrings: '"',
-  //     decimalseparator: '.',
-  //     showLabels: true,
-  //     showTitle: false,
-  //     title: '',
-  //     useBom: true,
-  //     noDownload: false,
-  //     headers: headers,
-  //     useHeader: false,
-  //     nullToEmptyString: true,
-  //   };
-
-
-  //   new AngularCsv(data, 'ExportedData', options);
-  // }
 
   redux = (array: any, keys: any) => array.map((o: any) => keys.reduce((acc: any, curr: any) => {
     acc[curr] = o[curr];
     return acc;
   }, {}));
-
-  public test(queryParameters: QueryParameters = { twpParameters: {} }): void {
-    queryParameters.twpParameters!.tags ??= this.selectedTags;
-    queryParameters.twpParameters!.pageSize ??= this.pageSize;
-    queryParameters.twpParameters!.page ??= this.page;
-
-    localStorage.setItem('queryParameters', JSON.stringify(queryParameters));
-
-    // this.getProjects(queryParameters);
-  }
 }

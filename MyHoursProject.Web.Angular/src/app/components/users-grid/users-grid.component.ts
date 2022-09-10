@@ -1,30 +1,18 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import {
   Column,
-  ColumnSourceFrom,
-  CustomFinanceData,
-  CustomProject,
-  CustomProjectData,
-  nameof,
-  Page,
   PipeManager,
-  QueryParameters,
   SortBy,
-  Tag,
   User,
 } from 'src/app/classes/project';
-import { CustomProjectDataService } from 'src/app/services/projectData/custom-project-data.service';
-import { CustomFinanceDataService } from 'src/app/services/financeData/custom-finance-data.service';
-import { ProjectsService } from 'src/app/services/allhours/projects.service';
-import { NgbdModalContent } from '../user-add-abscence-modal/user-add-abscence-modal.component';
-
+import { AddUserAbsenceModalContent } from '../user-add-absence-modal/user-add-absence-modal.component';
 @Component({
   selector: 'app-users-grid',
   templateUrl: './users-grid.component.html',
   styleUrls: ['./users-grid.component.scss'],
 })
-export class ProjectsGridComponent implements OnInit {
+export class UsersGridComponent implements OnInit {
   draggedColumnIndex: any;
   droppedColumnIndex: any;
   tableHeader: any;
@@ -46,11 +34,6 @@ export class ProjectsGridComponent implements OnInit {
   @Input()
   public pageData: any;
 
-  @Output()
-  projectDataChanged: EventEmitter<QueryParameters> = new EventEmitter();
-  queryParameters: QueryParameters = {}
-
-
   public get sort(): typeof SortBy {
     return SortBy;
   }
@@ -58,30 +41,23 @@ export class ProjectsGridComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  beginEdit(project: User) {
+  beginEdit(user: User) {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
       centered: true,
       scrollable: true,
-      size: 'lg',
+      size: 'md',
     };
-    const modalRef = this.modalService.open(NgbdModalContent, ngbModalOptions);
-    modalRef.componentInstance.project = project;
+    const modalRef = this.modalService.open(AddUserAbsenceModalContent, ngbModalOptions);
+    modalRef.componentInstance.user = user;
 
     modalRef.result.then(
       result => {
-        if (localStorage.getItem('queryParameters')) {
-          let queryParameters = JSON.parse(
-            localStorage.getItem('queryParameters')!
-          );
-          this.projectDataChanged.emit(queryParameters);
-        } else {
-          this.projectDataChanged.emit();
-        }
+        console.log(result);
       },
       rejectReason => {
-
+        console.log(rejectReason);
       });
   }
 
@@ -102,7 +78,7 @@ export class ProjectsGridComponent implements OnInit {
     this.droppedColumnIndex = index;
     this.arrayMove(this.columns, this.draggedColumnIndex, index);
 
-    localStorage.setItem('columns', JSON.stringify(this.columns));
+    localStorage.setItem('user_columns', JSON.stringify(this.columns));
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -117,16 +93,17 @@ export class ProjectsGridComponent implements OnInit {
 
     console.log(this.columns[0].width);
 
-    localStorage.setItem('columns', JSON.stringify(this.columns));
+    localStorage.setItem('user_columns', JSON.stringify(this.columns));
   }
 
-  public sortBy(column: any) {
-    // let index = (Object.keys(SortBy).indexOf(column.sortBy) + 1) % (Object.keys(SortBy).length/2);
-    // column.sortBy = SortBy[index];
+  public sortBy(column: Column) {
+    let sort = 1;
+
     if (column.sortBy === SortBy.none) {
       column.sortBy = SortBy.asc;
     } else if (column.sortBy === SortBy.asc) {
       column.sortBy = SortBy.desc;
+      sort = -1;
     } else if (column.sortBy === SortBy.desc) {
       column.sortBy = SortBy.asc;
     }
@@ -136,50 +113,10 @@ export class ProjectsGridComponent implements OnInit {
     });
 
 
-    // let queryParameters: QueryParameters = this.getQueryParameters(column);
-
     //TODO: refactor this
-    localStorage.setItem('columns', JSON.stringify(this.columns));
+    localStorage.setItem('user_columns', JSON.stringify(this.columns));
 
-    // this.projectDataChanged.emit(queryParameters);
+    this.users?.sort((a, b) => { return a[column.mapsTo] > b[column.mapsTo] ? 1 * sort : -1 * sort; });
+
   }
-
-  changePage(pageNumber: number) {
-    let queryParameters: QueryParameters = {
-      twpParameters: { page: pageNumber },
-      projectDataParameters: {},
-      financeDataParameters: undefined,
-    };
-    this.projectDataChanged.emit(queryParameters);
-  }
-
-  // private getQueryParameters(column: Column): QueryParameters {
-  //   let queryParameters: QueryParameters = {
-  //     twpParameters: {},
-  //     projectDataParameters: {},
-  //     financeDataParameters: {},
-  //   };
-
-  //   if (column.sortBy != SortBy.none) {
-  //     switch (column.sourceFrom) {
-  //       case ColumnSourceFrom.CustomProjectData: {
-  //         queryParameters.projectDataParameters!.orderBy =
-  //           column.customMap || nameof<CustomProject>(column.mapsTo);
-  //         queryParameters.projectDataParameters!.orderMode = column.sortBy;
-  //         break;
-  //       }
-  //       case ColumnSourceFrom.CustomProject:
-  //         {
-  //           queryParameters.twpParameters!.remainingTimeSort = column.remainingTimeSort;
-  //           queryParameters.twpParameters!.customSort = column.customSort;
-  //           queryParameters.twpParameters!.customSortField = column.mapsTo;
-  //           queryParameters.twpParameters!.orderBy =
-  //             column.customMap || nameof<CustomProject>(column.mapsTo);
-  //           queryParameters.twpParameters!.orderMode = column.sortBy;
-  //         }
-  //         break;
-  //     }
-  //   }
-  //   return queryParameters;
-  // }
 }

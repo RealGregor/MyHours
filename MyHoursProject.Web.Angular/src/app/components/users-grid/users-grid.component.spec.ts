@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProjectsGridComponent } from './users-grid.component';
+import { UsersGridComponent } from './users-grid.component';
 
 describe('ProjectsGridComponent', () => {
-  let component: ProjectsGridComponent;
-  let fixture: ComponentFixture<ProjectsGridComponent>;
+  let component: UsersGridComponent;
+  let fixture: ComponentFixture<UsersGridComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProjectsGridComponent ]
+      declarations: [ UsersGridComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProjectsGridComponent);
+    fixture = TestBed.createComponent(UsersGridComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
