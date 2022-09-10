@@ -1,1 +1,100 @@
-<p>absences works!</p>
+<div class="row m-0 p-0">
+    <div class="d-flex flex-column justify-content-center" style="height: 100px;  background-color: gainsboro;">
+        <div class="row">
+
+            <div class="d-flex col justify-content-start">
+                <div class="ms-4">
+                    <div class="d-flex hr-theme mb-2">
+                        <div class="hr-line-left w-100"></div>
+                        <div class="hr-icon">Velikost strani</div>
+                        <div class="hr-line-right w-100"></div>
+                    </div>
+                    <div class="btn-group" role="group" *ngFor="let ps of pageSizes">
+                        <a role="button" (click)="setPageSize(ps)" class="page-size-button me-1"
+                            [ngClass]="pageSize==ps? 'page-size-button-active' : ''">
+                            {{ps}}
+                        </a>
+                        <!-- <a role="button" (click)="pageData.pageSize = pageSize"
+                  [classList]="pageData.pageSize==pageSize? 'page-size-button-active' : 'page-size-button'">
+                </a> -->
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col d-flex justify-content-end">
+                <div class="d-flex align-self-center">
+                    <button type="button" class="btn btn-primary" placement="left" [popoverTitle]="popTitle"
+                        [autoClose]="'outside'" [ngbPopover]="popContent" container="body">
+                        Izberi stolpce
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <ng-template #popTitle>
+            Izberi stolpce za prikaz
+        </ng-template>
+        <ng-template #popContent>
+            <ngb-accordion #acc="ngbAccordion">
+                <ngb-panel id="ngb-panel-0">
+                    <ng-template ngbPanelTitle>
+                        <h6>Podatki uporabnika</h6>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <div *ngFor="let column of userColumns" class="mb-1">
+                            <label class="switch">
+                                <input type="checkbox" [checked]="column.visible"
+                                    (change)="saveColumnPreferences(column)">
+                                <div>
+                                    <span style="font-size: 16px;">{{column.field}}</span>
+                                </div>
+                            </label>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel id="ngb-panel-1">
+                    <ng-template ngbPanelTitle>
+                        <h6>Podatki tipa odsotnosti</h6>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <div *ngFor="let column of absenceDefinitionColumns" class="mb-1">
+                            <label class="switch">
+                                <input type="checkbox" [checked]="column.visible"
+                                    (change)="saveColumnPreferences(column)">
+                                <div>
+                                    <span style="font-size: 16px;">{{column.field}}</span>
+                                </div>
+                            </label>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel id="ngb-panel-2">
+                    <ng-template ngbPanelTitle>
+                        <h6>Podatki odsotnosti</h6>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <div *ngFor="let column of absenceColumns" class="mb-1">
+                            <label class="switch">
+                                <input type="checkbox" [checked]="column.visible"
+                                    (change)="saveColumnPreferences(column)">
+                                <div>
+                                    <span>{{column.field}}</span>
+                                </div>
+                            </label>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </ng-template>
+    </div>
+    <div class="d-flex m-0">
+        <input type="date" class="form-control w-auto mt-3" ngbTooltip="Začetni datum" [(ngModel)]="startDate">
+        <input type="date" class="form-control w-auto mt-3 ms-3" ngbTooltip="Končni datum" [(ngModel)]="endDate">
+        <button class="btn btn-dark align-self-end ms-3 mt-3" (click)="getAbsences()"><i
+                class="fa-solid fa-rotate-right me-2 align-self-end"></i>Pridobi podatke</button>
+
+    </div>
+    <app-absences-grid [columns]="columns" [absences]="absences" [pageData]="{pageSize: pageSize}"></app-absences-grid>
+</div>

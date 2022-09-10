@@ -1,0 +1,132 @@
+<div class="row no-gutters p-3 pb-0">
+  <div class="overflow-auto test p-0">
+    <table class="table table-hover text-left text-nowrap w-100 d-table">
+      <thead class="table-dark sticky-top bg-white shadow" style="z-index: 1;">
+        <tr>
+          <!-- style="min-width: 200px;" -->
+          <!-- IF dont like the width of the columns, you can use the min-width property -->
+          <!-- remove no-wrap if you want multiple rows in header -->
+          <ng-container *ngFor="let column of columns; index as i">
+            <th #th resizable *ngIf="column.visible" id="{{ i + 1 }}">
+              <div [ngStyle]="{'width.px': th.width || column.width}" style="min-width: fit-content !important;"
+                (click)="column.canSort && sortBy(column)">
+                <span draggable="true" (dragstart)="dragStartColumn(i)" (dragover)="allowDrop($event)"
+                  (drop)="dropColumn(i)" style="cursor: move; white-space: nowrap; hyphens: none">
+                  {{ column.field }}
+                </span>
+                <a *ngIf="column.canSort" role="button">
+                  <i class="fa-solid fa-arrow-up sort-button ms-1" [ngClass]="
+                    column.sortBy == sort.desc
+                      ? 'sort-button-desc'
+                      : column.sortBy == sort.asc
+                      ? 'sort-button-asc'
+                      : ''
+                  "></i>
+                </a>
+              </div>
+            </th>
+          </ng-container>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <ng-container *ngIf="!absences; else showResults;">
+          <tr>
+            <ng-container *ngFor="let column of columns; index as i">
+              <td class="overflow-auto" *ngIf="columns[i].visible">
+                <div class="unset-data">&nbsp;</div>
+              </td>
+            </ng-container>
+          </tr>
+          <tr>
+            <ng-container *ngFor="let column of columns; index as i">
+              <td class="overflow-auto" *ngIf="columns[i].visible">
+                <div class="unset-data">&nbsp;</div>
+              </td>
+            </ng-container>
+          </tr>
+          <tr>
+            <ng-container *ngFor="let column of columns; index as i">
+              <td class="overflow-auto" *ngIf="columns[i].visible">
+                <div class="unset-data">&nbsp;</div>
+              </td>
+            </ng-container>
+          </tr>
+          <tr>
+            <ng-container *ngFor="let column of columns; index as i">
+              <td class="overflow-auto" *ngIf="columns[i].visible">
+                <div class="unset-data">&nbsp;</div>
+              </td>
+            </ng-container>
+          </tr>
+          <tr>
+            <ng-container *ngFor="let column of columns; index as i">
+              <td class="overflow-auto" *ngIf="columns[i].visible">
+                <div class="unset-data">&nbsp;</div>
+              </td>
+            </ng-container>
+          </tr>
+          <tr>
+            <ng-container *ngFor="let column of columns; index as i">
+              <td class="overflow-auto" *ngIf="columns[i].visible">
+                <div class="unset-data">&nbsp;</div>
+              </td>
+            </ng-container>
+          </tr>
+        </ng-container>
+        <ng-template #showResults>
+          <ng-container *ngIf="absences!.length == 0; else showProjects">
+            <div>Ni rezultatov</div>
+          </ng-container>
+        </ng-template>
+        <ng-template #showProjects>
+          <tr
+            *ngFor="let absence of absences! | paginate: {id: 'custom', itemsPerPage: pageData?.pageSize, currentPage: (pageData?.pageOffset || 1), totalItems: pageData?.count}">
+            <ng-container *ngFor="let column of columns; index as i">
+                <td class="overflow-auto" style="max-width: 150px;"
+                (click)="columns[i].customClickEvent && $event.stopPropagation()"
+                *ngIf="columns[i].pipe && columns[i].visible; else noPipe" [innerHTML]="
+                absence[columns[i].mapsTo] | dynamicPipe: PipeManager.PipeForKey(columns[i].pipe):columns[i].args
+              "></td>
+              <ng-template #noPipe>
+                <td class="overflow-auto" *ngIf="columns[i].visible">
+                  {{ absence[columns[i].mapsTo] }} {{absence[columns[i].mapsTo]? columns[i].customFormat: ""}}
+                </td>
+              </ng-template>
+            </ng-container>
+          </tr>
+        </ng-template>
+
+      </tbody>
+    </table>
+  </div>
+  <!-- <pagination-controls class="mt-2" (pageChange)="changePage($event)" id="custom"></pagination-controls> -->
+
+  <!-- (pageChange)="changePage($event)" -->
+
+  <pagination-template #p="paginationApi" id="custom" (pageChange)="pageData.pageOffset = $event" id="custom">
+
+
+    <div class="custom-pagination mt-3">
+      <div class="me-1" [class.disabled]="p.isFirstPage()">
+        <a class="page-button" *ngIf="!p.isFirstPage()" (click)="p.previous()">
+          < </a>
+      </div>
+
+      <div *ngFor="let page of p.pages" class="me-1">
+        <a (click)="p.setCurrent(page.value)" class="page-button" *ngIf="p.getCurrent() !== page.value">
+          <span>{{ page.label }}</span>
+        </a>
+        <div class="page-button page-button-active" *ngIf="p.getCurrent() === page.value">
+          <span>{{ page.label }}</span>
+        </div>
+      </div>
+
+      <div [class.disabled]="p.isLastPage()">
+        <a class="page-button" *ngIf="!p.isLastPage()" (click)="p.next()"> > </a>
+      </div>
+    </div>
+
+  </pagination-template>
+</div>
