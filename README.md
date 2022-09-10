@@ -65,6 +65,7 @@ ng serve
 - There is data validation - required and email validation
 - User cannot try to add a new user (by using the client) if there are validation errors
 - After clicking on button "Save", in the case of success, the modal will close and users grid will refresh. In case of failure, an alert will be shown
+- **NOTE** It does add the user a bit slow
 
 ![Pasted image 20220910200330](https://user-images.githubusercontent.com/55653561/189497127-336ac76e-f675-4df2-a864-9c527e9294ab.png)
 
