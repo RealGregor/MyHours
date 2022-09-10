@@ -1,0 +1,96 @@
+<div class="modal-header" style="cursor: move">
+  <h4 class="modal-title text-truncate">
+       <b>{{user.FullName}}</b>
+  </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="exitEdit()"></button>
+</div>
+<div class="modal-body" style="height: 50vh !important">
+  <!-- removed sticky-top -->
+  <div ngbNavContent class="p-2">
+    <form [formGroup]="absenceForm" class="mt-3" autocomplete="off">
+      <div class="mb-3" class="form-group">
+        <label for="type" class="form-label">Absence definition</label>
+        <select class="form-select" id="type" ngbAutofocus
+          [formControl]="absenceValidation[CustomProjectEnum.AbsenceDefinition].control" [ngClass]="
+                absenceValidation[CustomProjectEnum.AbsenceDefinition].control.untouched
+                  ? ''
+                  : absenceValidation[CustomProjectEnum.AbsenceDefinition].controlValid()
+                  ? 'is-valid'
+                  : 'is-invalid'
+              ">
+          <option *ngFor="let absenceDefinition of absenceDefinitions" [ngValue]="absenceDefinition.Id">
+            {{ absenceDefinition.Name }}
+          </option>
+        </select>
+        <div class="invalid-feedback text-start">
+          {{ absenceValidation[CustomProjectEnum.AbsenceDefinition].errorMessage }}
+        </div>
+      </div>
+
+      <div class="mb-3" class="form-group">
+        <label for="customer" class="form-label">Timestamp</label>
+        <input type="date" id="customer" class="form-control"
+          [formControl]="absenceValidation[CustomProjectEnum.Timestamp].control" [ngClass]="
+                absenceValidation[CustomProjectEnum.Timestamp].control.untouched
+                  ? ''
+                  : absenceValidation[CustomProjectEnum.Timestamp].controlValid()
+                  ? 'is-valid'
+                  : 'is-invalid'
+              " />
+        <div class="invalid-feedback text-start">
+          {{ absenceValidation[CustomProjectEnum.Timestamp].errorMessage }}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="progress" class="form-label">Origin</label>
+        <div class="input-group">
+          <span class="input-group-text fa fa-light fa-percent d-flex"></span>
+          <input type="number" id="progress" class="form-control"
+            [formControl]="absenceValidation[CustomProjectEnum.Origin].control" [ngClass]="
+                  absenceValidation[CustomProjectEnum.Origin].control.untouched
+                    ? ''
+                    : absenceValidation[CustomProjectEnum.Origin].controlValid()
+                    ? 'is-valid'
+                    : 'is-invalid'
+                " />
+          <div class="invalid-feedback text-start">
+            {{ absenceValidation[CustomProjectEnum.Origin].errorMessage }}
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="mb-3">
+        <label for="comment" class="form-label">Comment</label>
+        <input type="text" id="comment" class="form-control"
+          [formControl]="absenceValidation[CustomProjectEnum.Comment].control" [ngClass]="
+                absenceValidation[CustomProjectEnum.Comment].control.untouched
+                  ? ''
+                  : absenceValidation[CustomProjectEnum.Comment].controlValid()
+                  ? 'is-valid'
+                  : 'is-invalid'
+              " />
+        <div class="invalid-feedback text-start">
+          {{ absenceValidation[CustomProjectEnum.Comment].errorMessage }}
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+
+
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="exitEdit()">
+    Close
+  </button>
+  <button type="button" class="btn btn-outline-success" [disabled]="!absenceForm.valid" (click)="saveData()">
+    Save
+  </button>
+
+</div>
