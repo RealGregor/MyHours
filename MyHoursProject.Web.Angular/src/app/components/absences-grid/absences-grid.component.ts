@@ -88,6 +88,6 @@ export class AbsencesGridComponent implements OnInit {
       if (x !== column) x.sortBy = SortBy.none;
     });
 
-    this.absences?.sort((a, b) => { return a[column.mapsTo] > b[column.mapsTo] ? 1 * sort : -1 * sort; });
+    this.absences?.sort((a, b) => { return a[column.mapsTo].toLowerCase() > b[column.mapsTo].toLowerCase() ? 1 * sort : -1 * sort; });
   }
 }

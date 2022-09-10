@@ -38,7 +38,13 @@ export class SidebarComponent implements OnInit {
 
   public tokenValid(): boolean {
     let token = JSON.parse(localStorage.getItem('ah_access_token') ?? '{}');
-    return token.access_token && new Date(token.expirationTime) > new Date();
+    let valid = token.access_token && new Date(token.expirationTime) > new Date();
+    if (!valid) {
+      localStorage.removeItem('ah_access_token');
+      // localStorage.clear();
+      this.router.navigate(['/']);
+    }
+    return valid;
   }
 
 

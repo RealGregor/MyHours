@@ -116,7 +116,7 @@ export class UsersGridComponent implements OnInit {
     //TODO: refactor this
     localStorage.setItem('user_columns', JSON.stringify(this.columns));
 
-    this.users?.sort((a, b) => { return a[column.mapsTo] > b[column.mapsTo] ? 1 * sort : -1 * sort; });
+    this.users?.sort((a, b) => { return a[column.mapsTo].toLowerCase() > b[column.mapsTo].toLowerCase() ? 1 * sort : -1 * sort; });
 
   }
 }

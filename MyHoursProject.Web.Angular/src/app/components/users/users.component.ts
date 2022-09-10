@@ -122,7 +122,7 @@ export class UsersComponent implements OnInit {
     },
     {
       field: 'Email',
-      canSort: true,
+      canSort: false,
       sortBy: SortBy.none,
       mapsTo: 'Email',
       sourceFrom: ColumnSourceFrom.User,
