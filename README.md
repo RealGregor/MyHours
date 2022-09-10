@@ -4,6 +4,8 @@
 
 **You need to have Node.js along with npm and ng installed!**
 
+**Just in case, clear localStorage on ports you will run the app!**
+
 1. Clone repository https://github.com/RealGregor/MyHours.git
 
 

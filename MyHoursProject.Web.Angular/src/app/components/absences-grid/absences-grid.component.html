@@ -8,7 +8,7 @@
           <!-- remove no-wrap if you want multiple rows in header -->
           <ng-container *ngFor="let column of columns; index as i">
             <th #th resizable *ngIf="column.visible" id="{{ i + 1 }}">
-              <div [ngStyle]="{'width.px': th.width || column.width}" style="min-width: fit-content !important;"
+              <div [ngStyle]="{'width.px': th.width || columns[i].width}" style="min-width: fit-content !important;"
                 (click)="column.canSort && sortBy(column)">
                 <span draggable="true" (dragstart)="dragStartColumn(i)" (dragover)="allowDrop($event)"
                   (drop)="dropColumn(i)" style="cursor: move; white-space: nowrap; hyphens: none">

@@ -54,7 +54,8 @@ export class AbsencesComponent implements OnInit {
 			sortBy: SortBy.none,
 			mapsTo: 'Id',
 			sourceFrom: ColumnSourceFrom.Absence,
-			visible: false
+			visible: false,
+			width: 300
 		},
 		{
 			field: 'User Id',

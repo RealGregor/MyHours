@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/digital-pmo.web.angular'),
+      dir: require('path').join(__dirname, './coverage/myhours.web.angular'),
       subdir: '.',
       reporters: [
         { type: 'html' },

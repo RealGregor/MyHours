@@ -88,7 +88,7 @@ export class UsersGridComponent implements OnInit {
     for (let i = 0; i < ths.length; i++) {
       let width = +ths[i].style.width.replace(/[^\d\.\-]/g, '');
       if (width != 0)
-        this.columns[i].width = width;
+        this.columns[+ths[i].id - 1].width = width;
     }
 
     console.log(this.columns[0].width);

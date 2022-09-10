@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
 
 
   //TODO: refactor with using constructors.. dont know how to use optional parameters yet
-  public columns: Column[] =  localStorage.getItem('columns') ? JSON.parse(localStorage.getItem('columns')!) : [
+  public columns: Column[] =  localStorage.getItem('user_columns') ? JSON.parse(localStorage.getItem('user_columns')!) : [
     {
       field: 'Id',
       canSort: false,
