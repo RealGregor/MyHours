@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { AccountDetails, Person } from 'src/app/classes/account-details';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,10 +8,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private userService: UserService, private cookieService: CookieService, private router: Router) { }
-
-  @Input()
-  user: Person = UserService.user;
+  constructor(private router: Router) { }
 
   public sidenavExpanded: boolean = true;
 
@@ -23,14 +17,6 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAccountDetails();
-  }
-
-  getAccountDetails() {
-    this.userService.getAccountDetails()
-      .subscribe((data : Person) => {
-        this.user = data;
-      })
   }
 
   public assignActive(routesArr: string[] = this.router.url.split("/")): CurrentPage {
@@ -50,12 +36,15 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  
+  public tokenValid(): boolean {
+    let token = JSON.parse(localStorage.getItem('ah_access_token') ?? '{}');
+    return token.access_token && new Date(token.expirationTime) > new Date();
+  }
 
-  public logout(){
-    this.cookieService.delete('tw_access_token');
-    this.cookieService.delete('columns');
-    this.cookieService.delete('projectParameters');
+
+  public logout() {
+    localStorage.removeItem('ah_access_token');
+    // localStorage.clear();
     this.router.navigate(['/']);
   }
 
@@ -64,8 +53,5 @@ export class SidebarComponent implements OnInit {
 enum CurrentPage {
   Settings,
   Users,
-  Absences,
-  Povprasevanje,
-  Proizvajalci,
-  Izvajalci
+  Absences
 }

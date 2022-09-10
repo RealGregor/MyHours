@@ -1,9 +1,9 @@
 <!-- Toolbar -->
 
 <div class="toolbar position-relative">
-  <a data-v-f0fff9c6="" href="/#/home/work" class="d-flex items-center ms-3 me-2" title="Home" alt="Home"
+  <a data-v-f0fff9c6="" href="https://allhours.com/sl" target="_blank" class="d-flex items-center ms-3 me-2" title="Home" alt="Home"
     aria-label="Home"><img
-      src="assets/images/allhours.svg"
+      src="assets/images/allhours_white.png"
       height="31" alt="" class="">
     </a>
   <span style="font-size: 18px;">Integrirano z allhours</span>
@@ -36,15 +36,17 @@
       </button>
     </div>
 
-    <div class="p-4 ">
+    <div class="p-4">
       <h1>
         <a routerLink="/dashboard" class="logo">Testni projekt
         </a>
-        <a href="https://www.spica.si/">
-          <span class="logo mt-2">
-            <img width="30" class="me-1" src="logo"
+        <a href="https://www.spica.si/" target="_blank">
+          <span class="logo mt-4 mb-4">
+            <img width="90" class="me-1" src="assets/images/Spica_logo_white.png"
               alt="Spica">
-            Špica International
+              <div class="mt-2">
+                Špica International
+              </div>
           </span>
         </a>
       </h1>
@@ -53,10 +55,10 @@
           <a routerLink="/settings">
             <span class="fa fa-home me-3" style="width: 15px"></span>Settings</a>
         </li>
-        <li  [ngClass]="{'active':  assignActive() == currentPage.Users}">
+        <li  [ngClass]="{'active':  assignActive() == currentPage.Users}" *ngIf="tokenValid()">
           <a routerLink="/users"><span class="fa fa-user me-3" style="width: 15px"></span>Users</a>
         </li>
-        <li  [ngClass]="{'active':  assignActive() == currentPage.Absences}">
+        <li  [ngClass]="{'active':  assignActive() == currentPage.Absences}" *ngIf="tokenValid()">
           <a routerLink="/absences"><span class="fa fa-briefcase me-3" style="width: 15px"></span>Absences</a>
         </li>
       </ul>
@@ -65,7 +67,7 @@
     <div class="position-absolute bottom-0 p-4 pb-1 w-100">
       <ul class="list-unstyled components">
         <li>
-          <a role="button" class="border-0" (click)="logout()"><span class="fa fa-sign-out me-3"
+          <a role="button" *ngIf="tokenValid()" class="border-0" (click)="logout()"><span class="fa fa-sign-out me-3"
               style="width: 15px"></span>Logout</a>
         </li>
       </ul>
